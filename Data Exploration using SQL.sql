@@ -79,7 +79,7 @@ WHERE continent IS NOT NULL
 	GROUP BY date
 	ORDER BY 1,2
 
---number of cases, death and death percentage of all the world
+-- Number of cases, death and death percentage of all the world
 
 SELECT SUM(new_cases) AS TotalCases, 
 	SUM(CAST(new_deaths AS INT)) AS TotalDeaths,
@@ -98,7 +98,7 @@ JOIN CovidVaccinations cv
 WHERE cd.continent IS NOT NULL
 	ORDER BY 2,3
 
---making a rolling count
+-- Making a rolling count
 
 SELECT cd.continent, cd.location, cd.date, population, cv.new_vaccinations,
 SUM(CAST(cv.new_vaccinations AS BIGINT)) OVER (PARTITION BY cd.location ORDER BY cd.location, cd.date) AS TotalVacs
@@ -108,7 +108,7 @@ JOIN CovidVaccinations cv
 WHERE cd.continent IS NOT NULL
 	ORDER BY 2,3
 
---vaccination rolling count for india
+-- Vaccination rolling count for india
 
 SELECT cd.location, cd.date, population, cv.new_vaccinations,
 SUM(CAST(cv.new_vaccinations AS BIGINT)) OVER 
@@ -119,7 +119,7 @@ JOIN CovidVaccinations cv
 WHERE cd.continent IS NOT NULL AND cd.location = 'India'
 ORDER BY 2,3
 
---Using CTE to query TotalVacs by Population percetange in the above query
+-- Using CTE to query TotalVacs by Population percetange in the above query
 
 WITH PopVsVac (continent, location, date, population, new_vaccincations ,TotalVacs)
 AS 
@@ -135,7 +135,7 @@ AS
 SELECT *, (TotalVacs/population)*100 
 FROM PopVsVac
 
---writing the same query for India
+-- Writing the same query for India
 
 WITH IndPopVsVac (location, date, population, new_vaccinations, TotalVacs)
 AS 
@@ -152,7 +152,7 @@ SELECT *, (TotalVacs/population)*100
 FROM IndPopVsVac --YOU WILL FIND MORE THAN 100 PERCENT BECAUSE OF DOUBLE VACC POLICY
 
 
---WRITING THE SAME QUERY USING TEMP TABLES
+-- WRITING THE SAME QUERY USING TEMP TABLES
 
 --DROP TABLE IF EXISTS #PerPopVac
 CREATE TABLE #PerPopVac
@@ -175,7 +175,7 @@ INSERT INTO #PerPopVac
 SELECT *, (TotalVacs/population)*100 
 FROM #PerPopVac
 
---creating a temp table for Totalvacs by population for india
+-- Creating a temp table for Totalvacs by population for india
 
 --DROP TABLE IF EXISTS #IndPopVsVac 
 CREATE TABLE #IndPopVsVac 
@@ -197,9 +197,9 @@ INSERT INTO #IndPopVsVac
 
 SELECT * FROM #IndPopVsVac
 
---CREATING A VIEW
+-- CREATING A VIEW
 
---for global total
+-- For global total
 
 GO
 CREATE VIEW VGlobalTotal AS
@@ -212,7 +212,7 @@ GO
 
 SELECT * FROM VGlobalTotal
 
---for ind pop vs vac
+-- For ind pop vs vac
 
 GO
 CREATE VIEW VIndPopVsVac AS
@@ -227,7 +227,7 @@ GO
 
 SELECT * FROM VIndPopVsVac
 
---for global pop vs vac
+-- For global pop vs vac
 
 GO
 CREATE VIEW VPopVsVac AS
@@ -242,7 +242,7 @@ GO
 
 SELECT * FROM VPopVsVac
 
---for total death by continent
+-- For total death by continent
 
 GO
 CREATE VIEW VContTotalDeath AS
@@ -256,7 +256,7 @@ GO
 SELECT * FROM VContTotalDeath
 ORDER BY TotalDeathCount DESC
 
--- for percentage of death by population in india
+-- For percentage of death by population in india
 
 GO
 CREATE VIEW VIndPerDeath AS
@@ -269,7 +269,7 @@ GO
 
 SELECT * FROM VIndPerDeath
 
---for percent of people infected by population in india
+-- For percent of people infected by population in india
 
 GO
 CREATE VIEW VIndPerInf AS
