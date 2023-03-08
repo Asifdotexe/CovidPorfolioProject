@@ -1,24 +1,24 @@
 /*
 Data Exploration in Microsoft SQL Server
 using Covid 19 Dataset
-
-Skills used: 
 */
 
---viewing the tables
+-- Viewing the tables
+-- Ordering by location (3) and date (4)
+
 SELECT * FROM CovidDeaths
 	ORDER BY 3,4		
 SELECT * FROM CovidVaccinations
 	ORDER BY 3,4
---ordering by location (3) and date (4)
 
+-- Select Data that we are going to be starting with
 
 SELECT location, date, total_cases, new_cases, total_deaths, population
 FROM CovidDeaths
-ORDER BY 1,2			--ORDERING BY LOCATION AND DATE
+ORDER BY 1,2
 
 
---looking at death percentage in India
+-- Total Cases vs Total Death in India
 
 SELECT location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 AS DeathPercentage
 FROM CovidDeaths
@@ -26,7 +26,7 @@ WHERE location = 'India'
 	AND continent IS NOT NULL
 ORDER BY 1,2
 
---looking at population infected in India
+-- Total Cases vs Population in India
 
 SELECT location, date, total_cases, population, (total_cases/population)*100 AS PopulationInfected
 FROM CovidDeaths
@@ -34,7 +34,7 @@ WHERE location = 'India'
 	AND continent IS NOT NULL
 ORDER BY 1,2
 
---LOOKING AT COUNTRIES WITH HIGHEST INFECTION RATE COMPARED TO POPULATION
+-- Countries with Highest Infection Rate compared to Population
 
 SELECT location, population, MAX(total_cases) AS HigestInfectionCount, MAX((total_cases/population))*100 AS PopulationInfected
 FROM CovidDeaths
@@ -42,15 +42,18 @@ WHERE continent IS NOT NULL
 	GROUP BY location, population
 	ORDER BY PopulationInfected DESC
 
---LOOKING AT COUNTRIES WITH THE HIGHEST DEATHRATE PER POPULATION
+-- Countries with Highest Death Count per Population
 
 SELECT location, MAX(cast(total_deaths AS INT)) AS TotalDeathCount
 FROM CovidDeaths
 WHERE continent IS NOT NULL  --removes unwanted entries like world etc
 	GROUP BY location
 	ORDER BY TotalDeathCount DESC
+	
 
---querying the same on the basis of continent 
+-- BREAKING THINGS DOWN BY CONTINENT
+
+-- Showing contintents with the highest death count per population
  
 SELECT continent, MAX(cast(total_deaths AS INT)) AS TotalDeathCount
 FROM CovidDeaths
@@ -58,7 +61,7 @@ WHERE continent IS NOT NULL  --removes unwanted entries like world etc
 	GROUP BY continent
 	ORDER BY TotalDeathCount DESC
 
---continents with the highest death count
+-- Continents with the highest death count
 
 SELECT continent, MAX(cast(total_deaths AS INT)) AS TotalDeathCount
 FROM CovidDeaths
@@ -66,7 +69,7 @@ WHERE continent IS NOT NULL  --removes unwanted entries like world etc
 	GROUP BY continent
 	ORDER BY TotalDeathCount DESC
 
---global numbers
+-- Global numbers
 
 SELECT date, SUM(new_cases) AS TotalCases, 
 	SUM(CAST(new_deaths AS INT)) AS TotalDeaths,
@@ -85,14 +88,8 @@ FROM CovidDeaths
 	WHERE continent IS NOT NULL
 	ORDER BY 1,2
 
---using covid vaccination table
-
-SELECT * FROM CovidVaccinations
-
---JOINING BOTH TABLES
-
-
---looking at total population vs people vaccincated
+-- Total Population vs Vaccinations
+-- Shows Percentage of Population that has recieved at least one Covid Vaccine
 
 SELECT cd.continent, cd.location, cd.date, population, cv.new_vaccinations
 FROM CovidDeaths cd
