@@ -1,7 +1,9 @@
---DATA EXPLORATION IN SQL
+/*
+Data Exploration in Microsoft SQL Server
+using Covid 19 Dataset
 
---IMPORTING DATASETS 'COVID DEATH' AND 'COVID VACCINATION'
-
+Skills used: 
+*/
 
 --viewing the tables
 SELECT * FROM CovidDeaths
