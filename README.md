@@ -7,4 +7,5 @@ Tools: MicroSoft SQL Server
 
 - I made use of the covid dataset from https://ourworldindata.org/covid-deaths
 - As it was one big dataset, I used Excel to manipulate the Data and convert it into two individual tables making it easier to demonstrate the concept of joins
-- Created Join, CTEs, Temp tables, Views
+- Skills used: Joins, CTE's, Temp Tables, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types
+
